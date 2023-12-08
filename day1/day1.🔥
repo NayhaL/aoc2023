@@ -1,0 +1,36 @@
+from utils.vector import DynamicVector
+
+fn main() raises:
+    let lines:  DynamicVector[String]
+    with open("./input.txt", "r") as f:
+        let wholeInput = f.read()
+        lines = wholeInput.split("\n")        
+        print("result: ", processFile(lines))
+
+def processFile(lines: DynamicVector[String]) -> Int:
+    var i: Int = 0
+    var result: Int = 0
+    let vectorLength:Int  = lines.__len__()
+    while i < vectorLength:
+        result = result + processLine(lines[i])
+        i = i + 1
+    return result
+
+def processLine(line: String) -> Int:
+    var first: String = ""
+    var last: String = ""
+    for i in range(line.__len__()):
+        try:
+            if(atol(line[i])):
+                if(first == ""):
+                    first = line[i] 
+                    last = line[i]
+                else:
+                    last = line[i]
+        except:
+           continue 
+    let result: Int = atol(first + last)  
+    return result
+
+
+

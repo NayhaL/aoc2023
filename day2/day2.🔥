@@ -1,0 +1,60 @@
+from utils.vector import DynamicVector
+
+fn main() raises:
+    let lines:  DynamicVector[String]
+    with open("./input2.txt", "r") as f:
+        let wholeInput = f.read()
+        lines = wholeInput.split("\n")     
+        let result:Int = processInput(lines)
+        print("Result: ", result)
+
+fn processInput(lines: DynamicVector[String]) raises -> Int:
+    var i = 0
+    var a = 1
+    var b = 0
+    var result:Int = 0
+    let data:DynamicVector[String]
+    let sets:DynamicVector[String]
+    let setti:DynamicVector[String]
+    let valueVec:DynamicVector[String]
+    let linesLength:Int  = lines.__len__()
+    
+    while i < linesLength:
+        let header: String = "Game " + String(i + 1) + ":"
+        data = lines[i].split(header)
+        sets = data[1].split(";")
+        let setsLength:Int = sets.__len__()
+        var valid: Bool = True
+        while a < setsLength:
+            setti = sets[a].split(",")
+            let settiLength:Int = setti.__len__()
+            while b < settiLength:
+                valueVec = setti[b].split(" ")
+                if not isValidSet(atol(valueVec[1]), valueVec[2]):
+                    valid = False
+                    break
+                b = b + 1
+            b = 0
+            a = a + 1
+        if valid:
+            result = result + i + 1 
+        a = 0
+        i = i + 1     
+    
+    return result
+
+fn isValidSet(value:Int, color:String) -> Bool:
+    let redCubes:Int = 12
+    let greenCubes:Int = 13
+    let blueCubes:Int = 14
+    if color == "red":
+        if value > redCubes:
+            return False
+    elif color == "green":
+        if value > greenCubes:
+            return False
+    elif color == "blue":
+        if value > blueCubes:
+            return False
+    return True
+
